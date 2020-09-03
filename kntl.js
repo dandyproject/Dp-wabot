@@ -1,4 +1,4 @@
-const { create, decryptMedia } = require('@open-wa/wa-automate')
+﻿const { create, decryptMedia } = require('@open-wa/wa-automate')
 const fs = require('fs-extra')
 const axios = require('axios')
 const moment = require('moment')
@@ -30,7 +30,7 @@ const serverOption = {
 
 const opsys = process.platform
 if (opsys === 'win32' || opsys === 'win64') {
-    serverOption.executablePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+    serverOption.executablePath = 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
 } else if (opsys === 'win32' || opsys === 'win64') {
     serverOption.executablePath = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
 } else if (opsys === 'linux') {
@@ -101,8 +101,8 @@ async function msgHandler (client, message) {
         switch (command) {
             case 'sticker':
             case 'stiker':
-            case '#Sticker':
-            case '#Stiker':
+            case 'Sticker':
+            case 'Stiker':
             case '#stiker':
             case '#sticker':
             case 'P':
@@ -113,12 +113,12 @@ async function msgHandler (client, message) {
                 if (isMedia) {
                     const mediaData = await decryptMedia(message)
                     const imageBase64 = `data:${mimetype};base64,${mediaData.toString('base64')}`
-                    await client.sendText(from, '_Stimker Semdang dibuat_')
+                    await client.reply(from, '_Stimker Semndang dibuat_ ... \nKalo Responnya Lama,berarti Bot Sedang  OFF/Delay \nJadi Jangan Spam')
                     await client.sendImageAsSticker(from, imageBase64, message)
                 } else if (quotedMsg && quotedMsg.type == 'image') {
                     const mediaData = await decryptMedia(quotedMsg)
                     const imageBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
-                    await client.sendText(from, '_Stimker semdang dibuat_')
+                    await client.reply(from, '_Stimker semdang dibuat_ ...\nKalo Responnya Lama,berarti Bot Sedang OFF/Delay \nJadi Jangan Spam')
                     await client.sendImageAsSticker(from, imageBase64, message)
                 } else if (args.length >= 1) {
                     const url = args[1]
@@ -132,7 +132,7 @@ async function msgHandler (client, message) {
                     if(isGroupMsg) {
                         client.sendTextWithMentions(from, ``)
                     } else {
-                        client.reply(from, 'Cara Bikin Stiker:\n Kirim Gambar Yang Pengen di Jadiin Stiker,Pake Caption *!sticker*', message)
+                        client.reply(from, 'Cara Bikin Stiker:\nKirim Gambar Yang Pengen di Jadiin Stiker,Pake Caption *!sticker*', message)
                     }                        
                 }
             break
@@ -401,20 +401,20 @@ Season = *${resolt.docs[0].season}*
         case 'join':
             if (args.length >= 1) {
                 const link = body.slice(6)
-                const invite = link.replace('https://chat.whatsapp.com/', '')
-                if (link.match(/(https:\/\/chat.whatsapp.com)/gi)) {
+                const invite = link.replace('hp', '')
+                if (link.match(/(https:\/\/m)/gi)) {
                     const check = await client.inviteInfo(invite);
                     if (!check) {
                         client.reply(from, 'Sepertinya link grup bermasalah', message.id)
                     } else {
                         await client.joinGroupViaLink(invite)
-                        client.reply(from, 'Otw join gan', message.id)
+                        client.reply(from, 'Fitur disalahgunakan silahkan izin ke wa.me/6289636035164', message.id)
                     } 
                 } else {
                     client.reply(from, 'Ini link? 👊🤬', message.id)
                 }
             } else {
-                client.reply(from, 'Kirim perintah *!join* link group\n\nEx:\n!join https://chat.whatsapp.com/blablablablablabla', message.id)
+                client.reply(from, 'Fitur disalahgunakan Silahkan izin ke wa.me/6289636035164', message.id)
             }
             break
         case 'lirik':
@@ -455,7 +455,7 @@ Season = *${resolt.docs[0].season}*
         case 'quote' :
         case 'quotes' :
           case 'Quotes':
-            client.sendText(from, quotedd())
+            client.reply(from, quotedd())
             break
         case 'meme':
             const response = await axios.get('https://meme-api.herokuapp.com/gimme/wholesomeanimemes');
@@ -464,9 +464,9 @@ Season = *${resolt.docs[0].season}*
             break
         case 'help':
         case 'menu':
-            client.sendText(from, `╔═══════════════
+            client.reply(from, `╔═══════════════
 ╠══✪〘 Commands 〙✪══
-╠➥!sticker
+╠➥!P
 ╠➥!neko
 ╠➥!pokemon
 ╠➥!inu
@@ -478,7 +478,7 @@ Season = *${resolt.docs[0].season}*
 ╠➥!waifu  [ error ]
 ╠➥!wait
 ╠➥!meme
-╠➥!join <link>
+╠➥!join <link> [ off ]
 ╠➥!lirik <optional>
 ║
 ╠✪〘 Downloader 〙✪═
@@ -492,10 +492,11 @@ Season = *${resolt.docs[0].season}*
 ╠➥!promote <@tagmember>
 ╠➥!demote <@tagadmin>
 ╠➥!leave
-║
+║ 
 ╠✪〘 Donate :) 〙✪════
 ╠➥!donasi
-╚═〘 DP WhatsApp Bot 〙`)
+╚═〘 DP WhatsApp Bot 〙
+*Semua Perintah diawali !*`)
             break
         case 'info':
             client.sendText(from, 'Ini adalah program yang ditulis dalam Javascript. \n \nDengan menggunakan bot, Anda menyetujui Syarat dan Ketentuan kami \n \nSyarat dan ketentuan \n \nTeks dan nama pengguna whatsapp Anda akan disimpan di server kami selama bot aktif, data Anda akan dihapus ketika  bot menjadi offline.  Kami TIDAK menyimpan gambar, video, file audio dan dokumen yang Anda kirim.  Kami tidak akan pernah meminta Anda untuk mendaftar atau meminta kata sandi, OTP, atau PIN Anda.\n\nTerima kasih, Selamat bersenang-senang!\n\nWarning: !!! dikarenakan saya sering melihat ada orang yang menjual bot, saya informasikan kalau bot ini geratis!.\n\n Tapi Kalo Mau Donasi Buat Perpanjang Server Bot Gapapa:v\n\n*DP WHATSAPP BOT*')    
